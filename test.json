@@ -1,0 +1,17 @@
+{
+	"svalue": "value1",
+	"ivalue": 2,
+	"bvalue": true,
+	"sarray": ["a1","a2"],
+	"iarray": [6, 7],
+	"oval": {
+		"svalue": "value1",
+		"ivalue": 2,
+		"bvalue": true,
+		"sarray": ["a1","a2"],
+		"iarray": [6, 7],
+		"oval": {
+			"svalue": "value1"
+		}
+	}
+}
