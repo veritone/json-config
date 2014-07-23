@@ -13,7 +13,7 @@ type Config struct {
 }
 
 func LoadConfig(uri string) (*Config, error) {
-	if !string.Contains("://") || strings.HasPrefix(strings.ToLower(uri), "file://") {
+	if !strings.Contains(uri, "://") || strings.HasPrefix(strings.ToLower(uri), "file://") {
 		return LoadConfigFromFile(uri)
 	}
 	return LoadConfigFromUrl(uri)
