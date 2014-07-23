@@ -6,11 +6,11 @@ import (
 	"net/http"
 )
 
-type config struct {
+type Config struct {
 	data  map[string]interface{}
 }
 
-func LoadConfigFromFile(fileName string) (*config, error) {
+func LoadConfigFromFile(fileName string) (*Config, error) {
 
 	buf, err := ioutil.ReadFile(fileName)
 	if err != nil {
@@ -19,24 +19,24 @@ func LoadConfigFromFile(fileName string) (*config, error) {
 	return loadConfig(buf)
 }
 
-func LoadConfigFromString(s string) (*config, error) {
+func LoadConfigFromString(s string) (*Config, error) {
 	return loadConfig([]byte(s))
 }
 
-func loadConfig(buf []byte) (*config, error) {
+func loadConfig(buf []byte) (*Config, error) {
 
 	var f interface{}
 	err := json.Unmarshal(buf, &f)
 	if err != nil {
 		return nil, err
 	}
-	c := config{
+	c := Config{
 		data: f.(map[string]interface{}),
 	}
 	return &c, nil
 }
 
-func LoadConfigFromUrl(url string) (*config, error) {
+func LoadConfigFromUrl(url string) (*Config, error) {
 
 	response, err := http.Get(url)
 	if err != nil {
@@ -51,7 +51,7 @@ func LoadConfigFromUrl(url string) (*config, error) {
 	return loadConfig(buf)
 }
 
-func (this config) GetString(key string) (string, bool) {
+func (this Config) GetString(key string) (string, bool) {
 	val, ok := this.data[key]
 	if !ok {
 		return "", false
@@ -59,7 +59,7 @@ func (this config) GetString(key string) (string, bool) {
 	return val.(string), true
 }
 
-func (this config) GetInt(key string) (int, bool) {
+func (this Config) GetInt(key string) (int, bool) {
 	val, ok := this.data[key]
 	if !ok {
 		return 0, false
@@ -67,7 +67,7 @@ func (this config) GetInt(key string) (int, bool) {
 	return int(val.(float64)), true
 }
 
-func (this config) GetFloat(key string) (float64, bool) {
+func (this Config) GetFloat(key string) (float64, bool) {
 	val, ok := this.data[key]
 	if !ok {
 		return 0, false
@@ -75,7 +75,7 @@ func (this config) GetFloat(key string) (float64, bool) {
 	return val.(float64), true
 }
 
-func (this config) GetBool(key string) (bool, bool) {
+func (this Config) GetBool(key string) (bool, bool) {
 	val, ok := this.data[key]
 	if !ok {
 		return false, false
@@ -83,7 +83,7 @@ func (this config) GetBool(key string) (bool, bool) {
 	return val.(bool), true
 }
 
-func (this config) GetArray(key string) ([]interface{}, bool) {
+func (this Config) GetArray(key string) ([]interface{}, bool) {
 	val, ok := this.data[key]
 	if !ok {
 		return []interface{}(nil), false
@@ -91,7 +91,7 @@ func (this config) GetArray(key string) ([]interface{}, bool) {
 	return val.([]interface{}), true
 }
 
-func (this config) GetStringArray(key string) ([]string, bool) {
+func (this Config) GetStringArray(key string) ([]string, bool) {
 	val, ok := this.GetArray(key)
 	if !ok {
 		return []string(nil), false
@@ -103,7 +103,7 @@ func (this config) GetStringArray(key string) ([]string, bool) {
 	return ret, true
 }
 
-func (this config) GetIntArray(key string) ([]int, bool) {
+func (this Config) GetIntArray(key string) ([]int, bool) {
 	val, ok := this.GetArray(key)
 	if !ok {
 		return []int(nil), false
@@ -115,7 +115,7 @@ func (this config) GetIntArray(key string) ([]int, bool) {
 	return ret, true
 }
 
-func (this config) GetFloat64Array(key string) ([]float64, bool) {
+func (this Config) GetFloat64Array(key string) ([]float64, bool) {
 	val, ok := this.GetArray(key)
 	if !ok {
 		return []float64(nil), false
@@ -127,7 +127,7 @@ func (this config) GetFloat64Array(key string) ([]float64, bool) {
 	return ret, true
 }
 
-func (this config) GetBoolArray(key string) ([]bool, bool) {
+func (this Config) GetBoolArray(key string) ([]bool, bool) {
 	val, ok := this.GetArray(key)
 	if !ok {
 		return []bool(nil), false
@@ -139,12 +139,12 @@ func (this config) GetBoolArray(key string) ([]bool, bool) {
 	return ret, true
 }
 
-func (this config) GetObject(key string) (*config, bool) {
+func (this Config) GetObject(key string) (*Config, bool) {
 	val, ok := this.data[key]
 	if !ok {
 		return nil, false
 	}
-	c := config{
+	c := Config{
 		data:  val.(map[string]interface{}),
 	}
 	return &c, true
