@@ -4,10 +4,18 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 type Config struct {
 	data  map[string]interface{}
+}
+
+func LoadConfig(uri string) (*Config, error) {
+	if !string.Contains("://") || strings.HasPrefix(strings.ToLower(uri), "file://") {
+		return LoadConfigFromFile(uri)
+	}
+	return LoadConfigFromUrl(uri)
 }
 
 func LoadConfigFromFile(fileName string) (*Config, error) {
