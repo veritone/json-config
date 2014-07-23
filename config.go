@@ -3,6 +3,7 @@ package jsonconfig
 import (
 	"encoding/json"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -156,4 +157,9 @@ func (this Config) GetObject(key string) (*Config, bool) {
 		data:  val.(map[string]interface{}),
 	}
 	return &c, true
+}
+
+// convenience method
+func (this Config) SettingNotFound(key string) {
+	log.Fatalf("Could not find setting '%v'", key)
 }
