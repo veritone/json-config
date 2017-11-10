@@ -159,6 +159,10 @@ func (this Config) GetObject(key string) (*Config, bool) {
 	return &c, true
 }
 
+func (this Config) GetData() (*(map[string]interface{}), bool) {
+    return &this.data, true
+}
+
 // convenience method
 func (this Config) SettingNotFound(key string) {
 	log.Fatalf("Could not find setting '%v'", key)
